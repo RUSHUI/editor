@@ -9,7 +9,7 @@
   top: 0;
   bottom: 0;
   right: 0;
-  background: rgba(3, 0, 0, 0.15);
+    background: rgba(18, 13, 13, 0.63);
   z-index: 99999999999999;
 }
 .mask-msg .message{
@@ -83,7 +83,12 @@ border: 1px solid #B3B3B3;
 
 
 
-.loader { width:32px; height:32px; margin:0 auto; }
+.loader {   width: 32px;
+  height: 32px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin: -16px; }
 
 /* Initial state */
 .bar { background-color:#99aaca; border:1px solid #96a6c9; float:left;

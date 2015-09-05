@@ -3,6 +3,13 @@
   position: relative;
 }
 
+.header{
+  color: #FFF;
+  font-size: 18px;
+  line-height: 30px;
+  text-align: center;
+  font-weight: 300;
+}
 
 .contentBox {
   position: absolute;
@@ -216,13 +223,13 @@ table.jPicker{
   bottom: 50px;
   right: 5%;
 }
-.minivideo{
+.minivideo {
   width: 320px!important;
-  height: 160px!important;
+  height: 180px!important;
   position: fixed!important;
-  bottom: 51px;
-  right: 5%;
-}
+  bottom: 70px;
+  right: 0;
+}  opacity: .2;
 .minivideo .vjs-control-bar{
    display: none!important;
 }
