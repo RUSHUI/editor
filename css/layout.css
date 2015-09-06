@@ -128,13 +128,14 @@ html, body {
     bottom: 0;
     left: 0;
     /*height: 100%;*/
+    min-height: 100%;
     right: 0;
 }
 
 /*//main-bottom   样式设置*/
 
 .main-bottom p {
-    padding: 1em 0;
+    padding: 0 0 2em 0;
 }
 .main-bottom .editor-left, .main-bottom .editor-left {
     left: 0;
@@ -157,7 +158,8 @@ html, body {
     display: inline-block;
     font: 14px/1.5 "微软雅黑";
     line-height: 16px;
-    padding: 1em 2em;
+    padding: 1em 5px;
+    margin: 0 1em;
     text-align: justify;
     color: #999;
 }
@@ -255,4 +257,8 @@ html, body {
 }
 .page-1-postil >div{
   padding: 5px 0;
+}
+
+[class^="page-"]{
+    padding: 1em 5px;
 }
