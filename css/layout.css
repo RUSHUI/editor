@@ -65,22 +65,20 @@ html, body {
 }
 .main .main-top {
     height: 510px;
-    position: relative;
+    min-width: 1230px;
 }
 .main-top .video-left, .main-top .video-right, .main-bottom .editor-right, .main-bottom .editor-left {
-    position: absolute;
+    float:left;
 }
 .main-top .video-left {
-    left: 0;
-    top: 0;
     width: 850px;
-    bottom: 0;
 }
 .main-top .video-right, .main-bottom .editor-right {
-    top: 0;
-    left: 850px;
-    right: 0;
-    bottom: 0;
+    position: relative;
+    height: 100%;
+    min-width: 300px;
+    width: 28%;
+    vertical-align: top;
 }
 .video-right article {
     position: absolute;
@@ -123,13 +121,9 @@ html, body {
     box-shadow: initial;
 }
 .main .main-bottom {
-    position: relative;
-    top: 0px;
-    bottom: 0;
-    left: 0;
-    /*height: 100%;*/
-    min-height: 100%;
-    right: 0;
+    overflow: hidden;
+    padding: 2em 0em;
+    min-width: 1230px;
 }
 
 /*//main-bottom   样式设置*/
@@ -137,11 +131,8 @@ html, body {
 .main-bottom p {
     padding: 0 0 2em 0;
 }
-.main-bottom .editor-left, .main-bottom .editor-left {
-    left: 0;
-    top: 0;
-    width: 850px;
-    bottom: 0;
+.main-bottom .editor-left {
+    width: 840px;
 }
 .main-bottom .wrap-article {
     font-size: 12px;
@@ -150,20 +141,24 @@ html, body {
     font: 14px/1.5 "微软雅黑";
     line-height: 30px;
     text-indent: 2em;
-    padding: 1em 0;
+    margin: 1em 20px 1em 0;
     text-align: justify;
+}
+.main-bottom .wrap-article.write{
+    border: 5px #555 dashed;
 }
 .main-bottom .wrap-postil {
     font-size: 12px;
     display: inline-block;
     font: 14px/1.5 "微软雅黑";
     line-height: 16px;
-    padding: 1em 5px;
-    margin: 0 1em;
+    margin: 1em 0px 1em 20px;
     text-align: justify;
     color: #999;
 }
-
+.main-bottom .wrap-postil.write{
+    border: 5px dashed #555;
+}
 /*//绿色小圆按钮pin-menu样式*/
 
 .wrap-reality .extra-main-left {
@@ -258,7 +253,6 @@ html, body {
 .page-1-postil >div{
   padding: 5px 0;
 }
-
 [class^="page-"]{
-    padding: 1em 5px;
+    margin: .5em;
 }

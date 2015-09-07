@@ -33,6 +33,12 @@
     //构造实例函数
     function Editor(dom, ops) {
         this.dom = $(dom);
+        this.mouse={
+            left:0,
+            top:0,
+            width:0,
+            height:0
+        };
         this.range = new window.rs.Range();
         this.init(ops);
         return this;
@@ -231,6 +237,12 @@
         });
         newpostil += "</div>";
         $(newpostil).appendTo(this.mainEditor.find(".wrap-postil"));
+
+    };
+    Editor.prototype.getRect=function(){
+      this.rect={
+
+      }
     };
     Editor.prototype.regEvent = function () {
         var ths = this;
@@ -248,13 +260,16 @@
             switch(cmd){
                 case "edit":
                     $.alert("编辑模式");
-                    ths.wrapArticle.attr("contenteditable",true);
-                    ths.wrapPostil.attr("contenteditable",true);
+                    ths.wrapArticle.addClass("write").attr("contenteditable",true);
+                    ths.wrapPostil.addClass("write").attr("contenteditable",true);
+                    //mouseEvent();
+                    ths.wrapArticle.on("mousedown",function(e){e=e||window.event;mousedownfn(e);});
                     break;
                 case "read":
                     $.alert("阅读模式");
-                    ths.wrapArticle.attr("contenteditable",false);
-                    ths.wrapPostil.attr("contenteditable",false);
+                    ths.wrapArticle.removeClass("write").attr("contenteditable",false);
+                    ths.wrapPostil.removeClass("write").attr("contenteditable",false);
+                    ths.wrapArticle.off("mousedown",function(e){e=e||window.event;mousedownfn.call(this,e);});
                     break;
                 default :
                     break;
@@ -262,7 +277,20 @@
             ths.status=cmd;
             fn&&fn();
         }
-        this.wrapArticle.on("mousedown","")
+        function mousedownfn(e){
+            var thss=this;
+            ths.range.saveRange();
+            var range=ths.range.getRange();
+            document.onmousemove=function(event){
+                event=event||window.event;
+                console.log(thss,ths,this,event,e);
+            }
+            document.onmouseup=function(){
+                document.onmousemove=null;
+            }
+        }
+
+
 
     };
 
