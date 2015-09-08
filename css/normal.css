@@ -1,0 +1,110 @@
+
+.header{
+    line-height: 35px;
+    text-align: center;
+}
+.footer {
+    line-height: 20px;
+    text-align: center;
+}
+
+
+.wrap-reality{
+    min-height: 600px;
+}
+
+
+/*//绿色小圆按钮pin-menu样式*/
+
+.wrap-reality .extra-main-left {
+    position: fixed;
+    top: 0;
+    z-index: 9;
+    width: 50px;
+    left: 0px;
+    width: 80px;
+    bottom: 70px;
+    /*background-color: #303030;*/
+}
+.btn-circle {
+    border-radius: 50%;
+}
+
+@media screen and {
+
+}
+.extra-main-left .nav-boot {
+    position: absolute;
+    left: 15px;
+    bottom: 10px;
+    box-shadow: 2px 3px 1px -2px rgba(17, 17, 17, 1);
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    opacity: 0.2;
+    line-height: 50px;
+    border: 1px solid rgb(67, 136, 42);
+    border-radius: 25px;
+    text-align: center;
+    font-size: 30px;
+    background-color: #2AA232;
+    color: rgba(255, 255, 255, 0.67);
+    transition: all 100ms linear;
+    transform: rotateZ(0deg) scale(1);
+}
+.extra-main-left .list {
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    color: rgba(255, 255, 255, 0.67);
+    text-align: center;
+    left: 0;
+    transition: all 200ms linear;
+}
+.extra-main-left .list-item {
+    width: 42px;
+    height: 42px;
+    line-height: 44px;
+    overflow: hidden;
+    display: inline-block;
+    /*height: 0;
+
+    */
+    background-color: #ddd;
+    text-align: center;
+    font-size: 25px;
+    transition: all 200ms linear;
+}
+.nav-boot i {
+    transform: rotateZ(0deg);
+    color: white;
+    display: inline-block;
+    font-size: 35px;
+    line-height: 48px;
+    width: 48px;
+    height: 48px;
+    transition: all 100ms linear;
+}
+.nav-boot:hover{
+    opacity: 1;
+}
+.show .nav-boot i{
+    transform: rotateZ(135deg);
+}
+.show.extra-main-left .nav-boot{
+    opacity: 1;
+}
+.show.extra-main-left .list-item{
+    height: 42px;
+}
+.extra-main-left li:hover {
+    background-color: #4E4e4E;
+}
+.extra-main-left li.active {
+    background-color: rgb(70, 154, 50);
+    color: white;
+}
+.extra-main-left a:hover {
+    text-shadow: none;
+    color: #fff;
+}

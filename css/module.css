@@ -1,14 +1,12 @@
-.wrap{
-  /*background-image: url(../assets/images/singlebg.png);*/
-  position: relative;
-}
 
 .header{
-  color: #FFF;
-  font-size: 18px;
-  line-height: 30px;
-  text-align: center;
-  font-weight: 300;
+    color: #FFF;
+    font-size: 18px;
+    height: 5%;
+    line-height: 35px;
+    min-height: 30px;
+    text-align: center;
+    font-weight: 300;
 }
 
 .contentBox {

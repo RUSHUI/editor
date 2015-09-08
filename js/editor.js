@@ -26,6 +26,7 @@
             }
             win.rs.editor.instances[id] = new Editor(this, $.extend(option,
                 ops));
+            ID=win.rs.editor.instances[id];
         });
     };
 
@@ -86,60 +87,49 @@
     };
     Editor.prototype.createBody = function (ops) {
         var str = "";
-    str+='<div class="wrap-reality rs-editor-instance">'+
-        '<section class="main">'+
-            '<div class="main-body">'+
-                '<div class="main-scroll">'+
+        str+='<div class="wrap-reality rs-editor-instance">'+
+            '<section class="main">'+
+                '<div class="main-body">'+
+                    '<div class="main-scroll">'+
+                    '</div>'+
                 '</div>'+
-            '</div>'+
-        '</section>'+
-        '<nav class="main-nav extra-main-left">'+
-            '<div class="nav-boot btn-circle"><i class="rs rs-add"></i></div>'+
-            '<ul class="list tool-list">'+
-        '<li data-cmd="edit" class="list-item btn-circle">'+
-        '<a title="编辑模式">'+
-        '<i class="rs rs-pencil"></i>'+
-        '</a>'+
-        '</li>'+
-        '<li data-cmd="read" class="list-item btn-circle">'+
-        '<a title="阅读模式">'+
-        '<i class="rs rs-chrome_reader_mode"></i>'+
-        '</a>'+
-        '</li>'+
-                //'<li data-cmd="article-1" class="list-item btn-circle">'+
-                //    '<a title="第一节">'+
-                //        '<i class="rs rs-looks_one"></i>'+
-                //    '</a>'+
-                //'</li>'+
-                //'<li data-cmd="article-2" class="list-item btn-circle">'+
-                //    '<a title="第二节">'+
-                //        '<i class="rs rs-looks_two"></i>'+
-                //    '</a>'+
-                //'</li>'+
-
-            '</ul>'+
-        '</nav>'+
-        '<svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
-            '<defs>'+
-                '<symbol id="icon-bubble2" viewBox="0 0 1024 1024">'+
-                    '<path class="path1" d="M512 192c-54.932 0-107.988 8.662-157.694 25.742-46.712 16.054-88.306 38.744-123.628 67.444-66.214 53.798-102.678 122.984-102.678 194.814 0 40.298 11.188 79.378 33.252 116.152 22.752 37.92 56.982 72.586 98.988 100.252 30.356 19.992 50.78 51.948 56.176 87.894 1.8 11.984 2.928 24.088 3.37 36.124 7.47-6.194 14.75-12.846 21.88-19.976 24.154-24.152 56.78-37.49 90.502-37.49 5.368 0 10.762 0.336 16.156 1.024 20.974 2.666 42.398 4.020 63.676 4.020 54.934 0 107.988-8.66 157.694-25.742 46.712-16.054 88.306-38.744 123.628-67.444 66.214-53.796 102.678-122.984 102.678-194.814s-36.464-141.016-102.678-194.814c-35.322-28.698-76.916-51.39-123.628-67.444-49.706-17.080-102.76-25.742-157.694-25.742zM512 64v0c282.77 0 512 186.25 512 416 0 229.752-229.23 416-512 416-27.156 0-53.81-1.734-79.824-5.044-109.978 109.978-241.25 129.7-368.176 132.596v-26.916c68.536-33.578 128-94.74 128-164.636 0-9.754-0.758-19.33-2.164-28.696-115.796-76.264-189.836-192.754-189.836-323.304 0-229.75 229.23-416 512-416z"></path>'+
-                '</symbol>'+
-            '</defs>'+
-        '</svg>'+
-    '</div>';
-    this.wrap=$(str).appendTo(this.dom);
-  }
-  Editor.prototype.createVideo=function(){
-      var str="";
-      str+='<div class="main-top video">'+
-          '<div class="video-left">'+
+            '</section>'+
+            '<nav class="main-nav extra-main-left">'+
+                '<div class="nav-boot btn-circle"><i class="rs rs-add"></i></div>'+
+                '<ul class="list tool-list">'+
+                    '<li data-cmd="edit" class="list-item btn-circle">'+
+                    '<a title="编辑模式">'+
+                    '<i class="rs rs-pencil"></i>'+
+                    '</a>'+
+                    '</li>'+
+                    '<li data-cmd="read" class="list-item btn-circle">'+
+                    '<a title="阅读模式">'+
+                    '<i class="rs rs-chrome_reader_mode"></i>'+
+                    '</a>'+
+                    '</li>'+
+                '</ul>'+
+            '</nav>'+
+            '<svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">'+
+                '<defs>'+
+                    '<symbol id="icon-bubble2" viewBox="0 0 1024 1024">'+
+                        '<path class="path1" d="M512 192c-54.932 0-107.988 8.662-157.694 25.742-46.712 16.054-88.306 38.744-123.628 67.444-66.214 53.798-102.678 122.984-102.678 194.814 0 40.298 11.188 79.378 33.252 116.152 22.752 37.92 56.982 72.586 98.988 100.252 30.356 19.992 50.78 51.948 56.176 87.894 1.8 11.984 2.928 24.088 3.37 36.124 7.47-6.194 14.75-12.846 21.88-19.976 24.154-24.152 56.78-37.49 90.502-37.49 5.368 0 10.762 0.336 16.156 1.024 20.974 2.666 42.398 4.020 63.676 4.020 54.934 0 107.988-8.66 157.694-25.742 46.712-16.054 88.306-38.744 123.628-67.444 66.214-53.796 102.678-122.984 102.678-194.814s-36.464-141.016-102.678-194.814c-35.322-28.698-76.916-51.39-123.628-67.444-49.706-17.080-102.76-25.742-157.694-25.742zM512 64v0c282.77 0 512 186.25 512 416 0 229.752-229.23 416-512 416-27.156 0-53.81-1.734-79.824-5.044-109.978 109.978-241.25 129.7-368.176 132.596v-26.916c68.536-33.578 128-94.74 128-164.636 0-9.754-0.758-19.33-2.164-28.696-115.796-76.264-189.836-192.754-189.836-323.304 0-229.75 229.23-416 512-416z"></path>'+
+                    '</symbol>'+
+                '</defs>'+
+            '</svg>'+
+        '</div>';
+        this.wrap=$(str).appendTo(this.dom);
+    }
+    Editor.prototype.createVideo=function(){
+        var str="";
+        str+='<div class="main-top video">'+
+            '<div class="video-left">'+
               '<video id="VIDEO_MIAN_WINDOW" class="video-js vjs-default-skin" controls height="510" width="850" preload="auto" data-setup="{}" poster="assets/images/oceans-clip.png">'+
                   '<source src="assets/video/MY_VIDEO.mp4" type="video/mp4">'+
                   '<source src="assets/video/MY_VIDEO.webm" type="video/webm">'+
                   '<p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>'+
               '</video>'+
-          '</div>'+
-          '<div class="video-right">'+
+            '</div>'+
+            '<div class="video-right">'+
               '<article>'+
                   '<h3>JAVASCRIPT实战开发教程</h3>'+
                   '<ul>'+
@@ -158,22 +148,22 @@
                   '</ul>'+
               '</article>'+
               '<div class="extra-line"></div>'+
-          '</div>'+
-      '</div>';
-      this.wrapVeido=$(str).appendTo(this.dom.find(".main-scroll"));
-  };
-  Editor.prototype.createArticle=function(){
-    var str="";
-    str+='<div class="main-bottom editor">'+
-        '<div class="wrap-article editor-left">'+
-        '</div>'+
-        '<div class="wrap-postil editor-right">'+
-        '</div>'+
-    '</div>';
-      this.mainEditor = $(str).appendTo(this.dom.find(".main-scroll"));
-      this.wrapArticle = this.mainEditor.find(".wrap-article");
-      this.wrapPostil = this.mainEditor.find(".wrap-postil");
-  };
+            '</div>'+
+        '</div>';
+        this.wrapVeido=$(str).appendTo(this.dom.find(".main-scroll"));
+    };
+    Editor.prototype.createArticle=function(){
+        var str="";
+        str+='<div class="main-bottom editor">'+
+            '<div class="wrap-article editor-left">'+
+            '</div>'+
+            '<div class="wrap-postil editor-right">'+
+            '</div>'+
+        '</div>';
+        this.mainEditor = $(str).appendTo(this.dom.find(".main-scroll"));
+        this.wrapArticle = this.mainEditor.find(".wrap-article");
+        this.wrapPostil = this.mainEditor.find(".wrap-postil");
+    };
     Editor.prototype.getData = function (ops, fn) {
         //数据处理
         var data = $.extend({}, ops.data),
@@ -237,12 +227,29 @@
         });
         newpostil += "</div>";
         $(newpostil).appendTo(this.mainEditor.find(".wrap-postil"));
-
+        this.updateRect();
     };
-    Editor.prototype.getRect=function(){
-      this.rect={
-
-      }
+    Editor.prototype.updateRect=function(){
+        var article=this.wrapArticle.get(0).getBoundingClientRect();
+        var postil=this.wrapPostil.get(0).getBoundingClientRect();
+        this.Rect={
+            article:{
+                left:article.left,
+                top:article.top,
+                right:article.right,
+                bottom:article.bottom,
+                height:article.height,
+                width:article.width
+            },
+            postil:{
+                left:postil.left,
+                top:postil.top,
+                right:postil.right,
+                bottom:postil.bottom,
+                height:postil.height,
+                width:postil.width
+            }
+        }
     };
     Editor.prototype.regEvent = function () {
         var ths = this;
@@ -340,6 +347,12 @@
     win.rs.Range = Range;
 })(jQuery, window, document);
 $(function () {
+    // $(window).resize(function(){
+    //    return false;
+    // });
+window.onresize=function(){
+return false;
+}
     //var rsSelectObject = function(elm, e) {
     //    var _select, _content = elm.innerHTML;
     //    if (null !== (_select = $.getSelectionObject())) {
