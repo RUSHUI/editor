@@ -37,7 +37,7 @@ html, body {
     bottom: 70px
 }
 .wrap-reality .main {
-    min-width: 1190px;
+    min-width: 1150px;
     width: 90%;
     margin: 0 auto 0 80px;
     height: 100%;
@@ -59,7 +59,8 @@ html, body {
 }
 .main .main-top {
     height: 510px;
-    min-width: 1230px;
+    min-width: 1110px;
+    width: 100%;
 }
 .main-top .video-left, .main-top .video-right, .main-bottom .editor-right, .main-bottom .editor-left {
     float:left;
@@ -70,8 +71,8 @@ html, body {
 .main-top .video-right, .main-bottom .editor-right {
     position: relative;
     height: 100%;
-    min-width: 300px;
-    width: 28%;
+    min-width: 260px;
+    width: calc(100% - 882px);
     vertical-align: top;
 }
 .video-right article {
@@ -117,7 +118,7 @@ html, body {
 .main .main-bottom {
     overflow: hidden;
     padding: 2em 0em;
-    min-width: 1230px;
+    min-width: 1110px;
 }
 
 /*//main-bottom   样式设置*/

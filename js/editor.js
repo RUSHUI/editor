@@ -232,6 +232,7 @@
     Editor.prototype.updateRect=function(){
         var article=this.wrapArticle.get(0).getBoundingClientRect();
         var postil=this.wrapPostil.get(0).getBoundingClientRect();
+        var wrap=this.wrap.find(".main-body")
         this.Rect={
             article:{
                 left:article.left,
@@ -239,7 +240,9 @@
                 right:article.right,
                 bottom:article.bottom,
                 height:article.height,
-                width:article.width
+                width:article.width,
+                offsetLeft:wrap.offset().left,
+                offsetTop:wrap.offset().top
             },
             postil:{
                 left:postil.left,
