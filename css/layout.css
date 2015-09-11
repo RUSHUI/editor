@@ -1,65 +1,58 @@
 html, body {
-    height: 100%;
-    width:100%;
-    min-width: 1200px;
 }
 .header,header, .footer,footer {
-    background: #404042;
-    background-image: linear-gradient(right, #404042 0%, #3b393b 69%);
+    background: #1d1d1d;
+    /*background-image: linear-gradient(right, #404042 0%, #3b393b 69%);
     background-image: -o-linear-gradient(right, #404042 0%, #3b393b 69%);
     background-image: -moz-linear-gradient(right, #404042 0%, #3b393b 69%);
     background-image: -webkit-linear-gradient(right, #404042 0%, #3b393b 69%);
     background-image: -ms-linear-gradient(right, #404042 0%, #3b393b 69%);
-    background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #404042), color-stop(0.69, #3b393b));
+    background-image: -webkit-gradient(linear, right top, left top, color-stop(0, #404042), color-stop(0.69, #3b393b));*/
+}
+.header{
+background: #3b393b!important;
 }
 
 .footer,footer {
     color: rgba(255, 255, 255, 0.6);
     padding: 10px 0 0;
     text-align: center;
-    bottom: 0px;
-    position: fixed;
-    right: 0px;
-    left: 0px;
 }
 .footer > div,footer > div {
     line-height: 30px;
 }
 .wrap {
-    height:100%;
-    width: 100%;
+    height: 100%;
+width: 100%;
+min-width: 1200px;
 }
 .wrap-reality {
-    position: absolute;
     width: 100%;
-    background: #1d1d1d;
+    background: #303030;
     top: 30px;
     bottom: 70px
 }
 .wrap-reality .main {
-    min-width: 1190px;
+    min-width: 1200px;
     width: 90%;
-    margin: 0 auto 0 80px;
+    margin: auto;
+    background-color: #303030;
     height: 100%;
     position: relative;
 }
 .wrap-reality .main-scroll {
-    overflow-y: auto;
-    overflow-x: hidden;
     height: 100%;
-    margin-right: -18px;
+    min-width: 1200px;
+}
+*{
+    -webkit-user-select: none;
 }
 .main-body {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    right: 0;
+    /*position: absolute;*/
 }
 .main .main-top {
     height: 510px;
-    min-width: 1230px;
+    min-width: 1120px;
 }
 .main-top .video-left, .main-top .video-right, .main-bottom .editor-right, .main-bottom .editor-left {
     float:left;
@@ -70,20 +63,19 @@ html, body {
 .main-top .video-right, .main-bottom .editor-right {
     position: relative;
     height: 100%;
-    min-width: 300px;
-    width: 28%;
+    min-width: 250px;
+    width: calc(100% - 858px);
     vertical-align: top;
 }
 .video-right article {
     position: absolute;
-    width: 80%;
-    left: 50%;
     height: 50%;
-    min-width: 250px;
+    width: 250px;
     top: 0;
+    left: 0;
     right: 0;
     bottom: 0;
-    margin: auto -40%;
+    margin: auto;
 }
 .video-right h3 {
     font-size: 20px;
@@ -103,10 +95,11 @@ html, body {
     content: ":";
     font-size: 16px;
 }
-.video-right .extra-line {
+.extra-line {
     border: 4px dashed #2F2F2F;
     height: 100%;
     width: 0;
+    float: left;
 }
 .video-right a {
     letter-spacing: 1px;
@@ -115,9 +108,8 @@ html, body {
     box-shadow: initial;
 }
 .main .main-bottom {
-    overflow: hidden;
     padding: 2em 0em;
-    min-width: 1230px;
+    min-width: 1120px;
 }
 
 /*//main-bottom   样式设置*/
@@ -129,8 +121,10 @@ html, body {
     width: 840px;
 }
 .main-bottom .wrap-article {
+outline: 0;
     font-size: 12px;
     display: inline-block;
+position: relative;/*批注需要绝对定位*/
     color: #ccc;
     font: 14px/1.5 "微软雅黑";
     line-height: 30px;
@@ -146,8 +140,10 @@ html, body {
     display: inline-block;
     font: 14px/1.5 "微软雅黑";
     line-height: 16px;
-    margin: 1em 0px 1em 20px;
+    margin: 1em 0px 1em 0px;
     text-align: justify;
+    min-width: 240px;
+    width: calc(100% - 880px);
     color: #999;
 }
 .main-bottom .wrap-postil.write{
@@ -155,16 +151,57 @@ html, body {
 }
 /*//绿色小圆按钮pin-menu样式*/
 
-.wrap-reality .extra-main-left {
-    position: absolute;
+.extra-main-left {
+    position: fixed;
     top: 0;
-    z-index: 9999999999;
+    z-index: 5;
     width: 50px;
-    left: 0px;
+    left: -80px;
     width: 80px;
     bottom: 0;
-    /*background-color: #303030;*/
+transition: all 100ms linear;
+    background-color: #111;
 }
+.extra-main-left .nav-triangle{
+    font-size: 30px;
+transition: all 100ms linear;
+color: #aaa;
+width: 26px;
+height: 45px;
+line-height: 45px;
+position: absolute;
+cursor: pointer;
+top: 50%;
+text-align: center;
+left: 100%;
+right: auto;
+border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: rgb(17, 17, 17);
+}
+.clearfix:after {       /*在类名为“clearfix”的元素内最后面加入内容；*/
+    content: ".";     /*内容为“.”就是一个英文的句号而已。也可以不写。*/
+    display: block;   /*加入的这个元素转换为块级元素。*/
+    clear: both;     /*清除左右两边浮动。*/
+    visibility: hidden;     /*可见度设为隐藏。注意它和display:none;是有区别的。visibility:hidden;仍然占据空间，只是看不到而已；*/
+    line-height: 0;    /*行高为0；*/
+    height: 0;     /*高度为0；*/
+    font-size:0;    /*字体大小为0；*/
+}
+.clearfix { *zoom:1;}   /*这是针对于IE6的，因为IE6不支持:after伪类，这个神奇的zoom:1让IE6的元素可以清除浮动来包裹内部元素。具体意思的话，不用深究，听说微软的工程师自己都无法解释清楚。height:1%效果也是一样。*/
+nav.extra-main-left.show {
+    left:0;
+}
+nav.extra-main-left.show  .nav-triangle{
+    left: auto;
+    right:0;
+    border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+        border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+    background-color: rgb(48, 48, 48);
+}
+
 .btn-circle {
     border-radius: 50%;
 }
@@ -220,13 +257,13 @@ html, body {
 .nav-boot:hover{
   opacity: 1;
 }
-.show .nav-boot i{
+.showlist .nav-boot i{
     transform: rotateZ(135deg);
 }
-.show.extra-main-left .nav-boot{
+.showlist.extra-main-left .nav-boot{
   opacity: 1;
 }
-.show.extra-main-left .list-item{
+.showlist.extra-main-left .list-item{
   height: 42px;
 }
 .extra-main-left li:hover {

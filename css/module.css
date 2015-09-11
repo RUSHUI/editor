@@ -101,12 +101,12 @@ left: 0;
 }*/
 
 .tools {
-  display: none;
   line-height: 28px;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
   color: #53655A;
+    text-indent: 0;
   max-width: 290px;
   padding: 2px;
   background: rgb(234, 221, 153);
@@ -116,6 +116,7 @@ left: 0;
   left: 0;
   min-width: 290px;
   top: 0;
+z-index: 10;
 }
 .tools:after{
   content: "";
@@ -123,7 +124,7 @@ left: 0;
   width: 0;
   height: 0;
   left: 50%;
-  margin-left: -10px;
+  margin-left: -20px;
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
   border-top: 20px solid #EADD99;
@@ -226,7 +227,7 @@ table.jPicker{
   height: 180px!important;
   position: fixed!important;
   bottom: 70px;
-  right: 0;
+  right: 35px;
 }  opacity: .2;
 .minivideo .vjs-control-bar{
    display: none!important;
