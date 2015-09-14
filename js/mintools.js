@@ -47,8 +47,9 @@
 			str+="</div><div class='btn cancel'>取消</div><div class='btn ok'>确认</div></section></div></div>";
 
 		var $elm = $(str).appendTo($("body"));
+
 		setTimeout(function() {
-			$elm.find(".message").addClass("toCenter");
+			$elm.find(".message").addClass("toCenter").find("textarea,input").focus();
 		}, 50);
 		$elm.find(".btn").each(function() {
 			$(this).click(function(e) {
@@ -93,13 +94,14 @@
 		var message={
 			text:msg,
 			ok:"确认",
-			cancel:"取消"
+			cancel:"取消",
+			style:""
 		};
 		if(typeof msg!=="string"){
 			message=$.extend(message,msg,{});
 		}
 
-		var str = "<div class='mask-msg'><section class='message dialog'><div class='text'>" + message.text +
+		var str = "<div class='mask-msg'><section class='message dialog'><div class='text' style="+message.style+">" + message.text +
 			"</div><div class='btn cancel'>"+message.cancel+"</div><div class='btn ok'>"+message.ok+"</div></section></div>";
 		var $elm = $(str).appendTo($("body"));
 		setTimeout(function() {

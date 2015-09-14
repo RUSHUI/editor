@@ -171,7 +171,7 @@
         this.wrapArticle = this.mainEditor.find(".wrap-article");
         this.wrapPostil = this.mainEditor.find(".wrap-postil");
         this.tooltip=new window.rs.Tooltip({
-            container: this.wrapArticle,
+            container: this.wrapArticle.parent(),
             context:this
         });
     };
@@ -377,15 +377,17 @@
             var textNode = document.createTextNode(text);
             range.insertNode(textNode);
             var content = editor.wrapArticle.html();
-            var reg = /\[ins id='(\d*)' comment='([\w\W]*)']([\w\W]*)\[\/ins]/gi;
+          //var reg = /\[ins id='(\d*)' comment='([\w\W]*)']([\w\W]*)\[\/ins]/gi;
+            var reg = /\[ins id='(\d*)' comment='([\w\W]*)'\]([\w\W]*)\[\/ins\]/gi;
+            reg.lastIndex=0;
             reg.exec(content);
             var id = RegExp.$1,
                 comment = RegExp.$2,
                 c = RegExp.$3;
             var reHtml = "<ins id='" + id + "' comment='" + comment + "' class='postil' >" + c + "<svg class='icons minipostil icon-bubble2'><use xlink:href='#icon-bubble2'></use></svg></ins>";
             content = content.replace(reg, reHtml);
-            $(".content").html(content);
-            $(".content .minipostil").each(function() {
+            editor.wrapArticle.html(content);
+            $(".minipostil").each(function() {
                 $(this).bind("keydown,keyup", function() {
                     e.preventDefault();
                     e.stopPropagation();
@@ -393,16 +395,19 @@
                 $(this).click(function(e) {
                     e.preventDefault();
                     e.stopPropagation();
+                    var ths=this;
                     $.dialog({
                         text: $(this.parentNode).attr("comment"),
-                        ok: "删除备注",
-                        cancel: "关闭"
+                        ok: "删除",
+                        cancel: "返回",
+                        style:"min-height:70px;text-indent:2em;padding:10px;"
                     }, function() {
-                        $("ins#" + id).replaceWith(selected);
+                        $("ins#" + ths.parentNode.id).replaceWith(selected);
                     });
                 });
             });
         });
+
     };
 
 })(jQuery, window, document);
@@ -493,8 +498,8 @@
     };
     Tooltip.prototype.regEvent=function(){
         var ths=this;
-        this.wrap.on("click","li",function(e){
-            e.stopPropagation();
+        this.options.context.dom.on("click",".tools li",function(e){
+            e.stopImmediatePropagation();
             ths.options.context.range.restoreSelection();
             if ($(this).hasClass("colorpicker")) {
                 config.current = $(this);
