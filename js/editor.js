@@ -171,7 +171,7 @@
         this.wrapArticle = this.mainEditor.find(".wrap-article");
         this.wrapPostil = this.mainEditor.find(".wrap-postil");
         this.tooltip=new window.rs.Tooltip({
-            container: this.wrapArticle,
+            container: this.wrapArticle.parent(),
             context:this
         });
     };
@@ -390,7 +390,9 @@
             var textNode = document.createTextNode(text);
             range.insertNode(textNode);
             var content = editor.wrapArticle.html();
-            var reg = /\[ins id='(\d*)' comment='([\w\W]*)']([\w\W]*)\[\/ins]/gi;
+          //var reg = /\[ins id='(\d*)' comment='([\w\W]*)']([\w\W]*)\[\/ins]/gi;
+            var reg = /\[ins id='(\d*)' comment='([\w\W]*)'\]([\w\W]*)\[\/ins\]/gi;
+            reg.lastIndex=0;
             reg.exec(content);
             var id = RegExp.$1,
                 comment = RegExp.$2,
@@ -398,20 +400,23 @@
             var reHtml = "<ins id='" + id + "' comment='" + comment + "' class='postil' >" + c + "<svg class='icons minipostil icon-bubble2'><use xlink:href='#icon-bubble2'></use></svg></ins>";
             content = content.replace(reg, reHtml);
             editor.wrapArticle.html(content);
-            editor.wrapArticle.find(".minipostil").each(function() {
+            editor.wrap.find(".minipostil").each(function() {
                 $(this).click(function(e) {
                     e.preventDefault();
                     e.stopPropagation();
+                    var ths=this;
                     $.dialog({
                         text: $(this.parentNode).attr("comment"),
-                        ok: "删除备注",
-                        cancel: "关　　闭"
+                        ok: "删除",
+                        cancel: "返回",
+                        style:"min-height:70px;text-indent:2em;padding:10px;"
                     }, function() {
-                        $("ins#" + id).replaceWith(selected);
+                        $("ins#" + ths.parentNode.id).replaceWith(selected);
                     });
                 });
             });
         });
+
     };
 
 })(jQuery, window, document);
@@ -506,6 +511,7 @@
         var ths=this;
         $(document).on("mouseup",".tools li",function(e){
           e.stopPropagation();
+            e.stopImmediatePropagation();
           ths.options.context.range.restoreSelection();
           if ($(this).hasClass("colorpicker")) {
               config.current = $(this);
