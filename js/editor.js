@@ -290,26 +290,36 @@
         $("body").mousewheel(function(e){
             ths.updateRect();
         });
-        $(document).on("mouseup",".wrap",function(e){
+
+
+        $(window).resize(function(){
+            ths.updateRect();
+        });
+
+        $(document).on("mouseup",function(e){
             e.stopPropagation();
             if(!ths.mouse.mousedown){
                 return;
             }
-            ths.dom.off("mousemove",".wrap-article");
-            console.log("off");
+
             ths.range.saveRange();
-            if(ths.range.getRange().collapsed){
+
+            var range=ths.range.getRange();
+            console.log(range.toString());
+            ths.dom.off("mousemove",".wrap-article");
+            //console.log("off");
+            if(range.collapsed){
                 ths.hideTooltip();
-                console.log("您没有选中任何文本。");
+                //console.log("您没有选中任何文本。");
             }else{
                 if(ths.mouse.mousedown){
-                    ths.mouse.mousedown=false;
+                    // ths.mouse.mousedown=false;
                     ths.showTooltip(ths.mouse.left,ths.mouse.top,function(){
                         ths.tooltip.show();
                     });
                 }
             }
-
+            ths.mouse.mousedown=false;
         });
         function update(cmd,fn){
             switch(cmd){
@@ -319,7 +329,11 @@
                     ths.wrapPostil.addClass("write").attr("contenteditable",true);
                     ths.wrapArticle.find(".tools").attr("contenteditable",false);
                     //mouseEvent();
-                    ths.dom.on("mousedown",".wrap-article",function(e){e=e||window.event;mousedownfn.call(ths,e);ths.mouse.mousedown=true;});
+                    ths.dom.on("mousedown",".wrap-article",function(e){
+                      e=e||window.event;
+                      mousedownfn.call(ths,e);
+                      ths.mouse.mousedown=true;
+                    });
                     break;
                 case "read":
                     $.alert("阅读模式");
@@ -334,8 +348,7 @@
             fn&&fn();
         }
         function mousedownfn(e){
-            ths.range.saveRange();
-            var range=ths.range.getRange();
+
             ths.dom.on("mousemove",".wrap-article",function(event){
                 event=event||window.event;
                 //console.log(ths,this,event,e);
@@ -345,22 +358,34 @@
         }
     };
     Editor.prototype.showTooltip=function(l,t,fn){
-        var prefix=20,fixset=this.rect.offset.left;
-        var left=l-this.rect.article.l;//相对于article定位计算的left，滚动在body上，所以页面left=0
-
-            left-=this.tooltip.rect.width/2;//减去弹框宽度一半，弹框居中
-
-        var diff=0;
-            if(left<-60){
-                diff=left-(-60);
-                left=-60;
-            }
-            var scrollTop=$("body").scrollTop();
+// <<<<<<< HEAD
+//         var prefix=20,fixset=this.rect.offset.left;
+//         var left=l-this.rect.article.l;//相对于article定位计算的left，滚动在body上，所以页面left=0
+//
+//             left-=this.tooltip.rect.width/2;//减去弹框宽度一半，弹框居中
+//
+//         var diff=0;
+//         if(left<-60){
+//             diff=left-(-60);
+//             left=-60;
+//         }
+//         var scrollTop=$("body").scrollTop();
+// =======
+        var  offsetLeft=this.rect.offset.left;
+        var left=l-this.rect.article.left;//相对于article定位计算的left，滚动在body上，所以页面left=0
+        left-=this.tooltip.rect.width/2+20;//减去弹框宽度一半，弹框居中
+        var diff=-20;
+        if(left<-offsetLeft){
+            diff=left-(-offsetLeft);
+            left=-offsetLeft;
+        }
+        var scrollTop=$("body").scrollTop();
+//>>>>>>> 5d8109780826e4b82e54c78a3bc709d3724195f8
         var top=t;
         top-=this.rect.article.t-scrollTop;
         top-=this.tooltip.rect.height+20;
          console.log("11111",left,top);
-        this.tooltip.wrap.find(".tools:after").css("margin-left",diff+"px");
+        this.tooltip.wrap.find(".downTriangle").css("margin-left",diff+"px");
         this.tooltip.wrap.css({
             left:left + "px",
             top:top + "px"
@@ -373,6 +398,7 @@
     Editor.prototype.stdin=function(editor){
         $.prompt("输入批注", true, function(value) {
             var range = editor.range.getRange();
+
             var selected = range.extractContents().textContent;
             var text = "[ins id='" + (new Date().getTime()) + "' comment='" + value + "']" + selected + "[/ins]";
             var textNode = document.createTextNode(text);
@@ -386,11 +412,7 @@
             var reHtml = "<ins id='" + id + "' comment='" + comment + "' class='postil' >" + c + "<svg class='icons minipostil icon-bubble2'><use xlink:href='#icon-bubble2'></use></svg></ins>";
             content = content.replace(reg, reHtml);
             editor.wrapArticle.html(content);
-            $(".minipostil").each(function() {
-                $(this).bind("keydown,keyup", function() {
-                    e.preventDefault();
-                    e.stopPropagation();
-                });
+            editor.wrap.find(".minipostil").each(function() {
                 $(this).click(function(e) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -447,6 +469,7 @@
                 document.selection.empty();
             }
             //将 selectedRange 存储的范围，添加到这个选取上
+            console.log("======",this.range.toString());
             selection.addRange(this.range);
         }
     };
@@ -485,6 +508,7 @@
                     "<li data-cmd='undo' class='cmd' data-ops=''   title='撤销命令'><i  style='font-size: 16px;' class=' rs rs-undo'></i></li>" +
                     "<li data-cmd='Postil' class='postil' data-ops=''   title='添加批注'><i style='font-size: 16px;' class=' rs rs-note_add'></i></li>" +
             "</ul>"+
+            "<i class='downTriangle'></i>"+
         "</div>";
         this.wrap= $(html).appendTo(this.options.container);
         this.rect=this.wrap.get(0).getBoundingClientRect();
@@ -497,22 +521,22 @@
     };
     Tooltip.prototype.regEvent=function(){
         var ths=this;
-        this.options.context.dom.on("click",".tools li",function(e){
+        $(document).on("mouseup",".tools li",function(e){
+          e.stopPropagation();
             e.stopImmediatePropagation();
-            ths.options.context.range.restoreSelection();
-            if ($(this).hasClass("colorpicker")) {
-                config.current = $(this);
-            } else if ($(this).hasClass("cmd")) {
-                ths.options.context.wrapArticle.focus();
-                var cmd = $(this).attr("data-cmd"),
-                    ops = $(this).attr("data-ops");
-                document.execCommand(cmd, 0, ops);
-                ths.hide();
-            }else {
-                ths.hide();
-                ths.options.context.stdin(ths.options.context);
-
-            }
+          ths.options.context.range.restoreSelection();
+          if ($(this).hasClass("colorpicker")) {
+              config.current = $(this);
+          } else if ($(this).hasClass("cmd")) {
+              ths.options.context.wrapArticle.focus();
+              var cmd = $(this).attr("data-cmd"),
+                  ops = $(this).attr("data-ops");
+              document.execCommand(cmd, 0, ops);
+              ths.hide();
+          }else {
+              ths.hide();
+              ths.options.context.stdin(ths.options.context);
+          }
         });
     };
     $.toolTips = function(ops) {

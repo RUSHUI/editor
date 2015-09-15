@@ -118,8 +118,7 @@ left: 0;
   top: 0;
 z-index: 10;
 }
-.tools:after{
-  content: "";
+.tools .downTriangle{
   position: absolute;
   width: 0;
   height: 0;
@@ -166,16 +165,18 @@ table.jPicker{
 
 .mask-msg .message.dialog{
   max-width: 400px;
-  width: auto;
   min-width: 200px;
 }
 .mask-msg .message.dialog .text{
   line-height: 25px;
-    margin: 5px;
-    text-align: left;
-    font-size: 16px;
-    word-wrap: break-word;
-    border-bottom: 1px solid #eef;
+margin: 5px;
+text-align: left;
+font-size: 16px;
+word-wrap: break-word;
+border-bottom: 1px solid #eef;
+min-height: 100px;
+background-color: rgb(234, 234, 234);
+padding: 10px;
 }
 
 .dialog .btn{
