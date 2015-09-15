@@ -345,10 +345,11 @@
         }
     };
     Editor.prototype.showTooltip=function(l,t,fn){
-        var left=l-this.rect.article.left;//相对于article定位计算的left，滚动在body上，所以页面left=0
+        var prefix=20,fixset=this.rect.offset.left;
+        var left=l-this.rect.article.l;//相对于article定位计算的left，滚动在body上，所以页面left=0
 
-            left-=this.tooltip.rect.width/2+20;//减去弹框宽度一半，弹框居中
-            left=left<-60?-60:left;
+            left-=this.tooltip.rect.width/2;//减去弹框宽度一半，弹框居中
+
         var diff=0;
             if(left<-60){
                 diff=left-(-60);
@@ -357,7 +358,7 @@
             var scrollTop=$("body").scrollTop();
         var top=t;
         top-=this.rect.article.t-scrollTop;
-        top-=this.tooltip.rect.height+20+20;
+        top-=this.tooltip.rect.height+20;
          console.log("11111",left,top);
         this.tooltip.wrap.find(".tools:after").css("margin-left",diff+"px");
         this.tooltip.wrap.css({
@@ -377,9 +378,7 @@
             var textNode = document.createTextNode(text);
             range.insertNode(textNode);
             var content = editor.wrapArticle.html();
-          //var reg = /\[ins id='(\d*)' comment='([\w\W]*)']([\w\W]*)\[\/ins]/gi;
             var reg = /\[ins id='(\d*)' comment='([\w\W]*)'\]([\w\W]*)\[\/ins\]/gi;
-            reg.lastIndex=0;
             reg.exec(content);
             var id = RegExp.$1,
                 comment = RegExp.$2,
