@@ -20,12 +20,14 @@ ins .icons{
   height: 17px;
 }
 ins {
-  background-color: rgba(0, 0, 0, 0.08);
-  position: relative;
+    position: relative;
+    cursor: help;
+    text-shadow: 0px 0px 2px #FFFFFF;
 }
-ins:hover{
-  color:#222;
-  }
+ins:hover {
+    background: #48964F;
+    color: #FFF;
+}
 mark {background-color: #fcd700; color: #000; font-style: italic; font-weight: bold;}
 
 /* Mozilla dosen't style place holders by default */

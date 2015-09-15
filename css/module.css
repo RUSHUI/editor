@@ -164,9 +164,8 @@ table.jPicker{
 
 
 .mask-msg .message.dialog{
-  max-width: 500px;
-  background-color: #BEBDBD;
-  width: auto;
+
+  max-width: 400px;
   min-width: 200px;
 }
 .mask-msg .message.dialog .text{
