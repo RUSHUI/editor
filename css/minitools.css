@@ -43,12 +43,15 @@
 .toCenter{
   transform: scale(1)!important;
 }
-.mask-msg header{
-	  height: 50px;
+.mask-msg .header{
+  height: 50px;
   line-height: 50px;
   width: 90%;
   margin: 0 auto;
+  color: #000;
+  font-weight: bold;
   text-align: center;
+  background-color: white!important;
 }
 .mask-msg section{
 	/* height: 50px; */
