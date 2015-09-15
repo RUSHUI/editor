@@ -205,41 +205,21 @@
             }
         });
     };
-    Editor.prototype.log = function (code) {
-        switch (code) {
-            case 1:
-                console.error("错误代码1");
-                break;
-            case 2:
-                console.error("错误代码2");
-                break;
-            case 3:
-                console.error("错误代码3");
-                break;
-            case 4:
-                console.error("错误代码4");
-                break;
-            case 5:
-                console.error("错误代码5");
-                break;
-            case 6:
-                console.error("错误代码6");
-                break;
-            default:
-                console.error("错误代码" + code + "，请联系您的服务提供者解决此问题。");
-        }
+    Editor.prototype.log = function (code,msg) {
+        console.error("错误代码" + code + "，请联系您的服务提供者解决此问题。");
     };
     Editor.prototype.render = function (data) {
-        var newarticle = "<div class='page-" + data.page + "'>" + data.textbook + "</div>";
+        var newarticle = "<div class='page page-" + data.page + "' data-page='"+data.page+"'>" + data.textbook + "</div>";
         $(newarticle).appendTo(this.mainEditor.find(".wrap-article"));
-        var newpostil = "<div class='page-" + data.page + "-postil'>";
+        var newpostil = "<div class='page page-" + data.page + "-postil' data-page='"+data.page+"'>";
         data.mPostil.forEach(function (elm, idx, ths) {
-            newpostil += "<div class='page-" + data.page + "-postil-" + idx + "'  parent_id='" + elm.postil_id + "' postil_createtime='" + elm.postil_createtime + "'><i class='rs rs-flag2' style='color:green;position: absolute;'></i><div class='text'>" + elm.postil_content + "</div></div>";
+            newpostil += "<div class='postil page-" + data.page + "-postil-" + idx + "' id='postil"+elm.postil_id+"' postil_id='" + elm.postil_id + "' postil_createtime='" + elm.postil_createtime + "'><i class='rs rs-flag2' style='color:green;position: absolute;'></i><div class='text'>" + elm.postil_content + "</div></div>";
         });
         newpostil += "</div>";
         $(newpostil).appendTo(this.mainEditor.find(".wrap-postil"));
         this.updateRect();
     };
+
     Editor.prototype.updateRect=function(){
         var article=this.wrapArticle.get(0).getBoundingClientRect();
         var postil=this.wrapPostil.get(0).getBoundingClientRect();
@@ -287,6 +267,18 @@
             ths.nav.toggleClass("show");
             ths.nav.toggleClass("showlist");
         });
+
+        this.wrapArticle.on("mouseenter","ins",function(){
+            ths.wrapPostil.find("#postil"+this.id).addClass("hover");
+        }).on("mouseout","ins",function(){
+            ths.wrapPostil.find("#postil"+this.id).removeClass("hover");
+        });
+        this.wrapPostil.on("mouseenter",".postil",function(){
+            ths.wrapArticle.find("ins#"+this.id.replace("postil","")).addClass("hover");
+        }).on("mouseout",".postil",function(){
+            ths.wrapArticle.find("ins#"+this.id.replace("postil","")).removeClass("hover");
+        });
+
         $("body").mousewheel(function(e){
             ths.updateRect();
         });
@@ -294,6 +286,7 @@
 
         $(window).resize(function(){
             ths.updateRect();
+            ths.updatePositionTooltip(ths.mouse.left,ths.mouse.top);
         });
 
         $(document).on("mouseup",function(e){
@@ -314,7 +307,7 @@
             }else{
                 if(ths.mouse.mousedown){
                     // ths.mouse.mousedown=false;
-                    ths.showTooltip(ths.mouse.left,ths.mouse.top,function(){
+                    ths.updatePositionTooltip(ths.mouse.left,ths.mouse.top,function(){
                         ths.tooltip.show();
                     });
                 }
@@ -357,32 +350,19 @@
             });
         }
     };
-    Editor.prototype.showTooltip=function(l,t,fn){
-// <<<<<<< HEAD
-//         var prefix=20,fixset=this.rect.offset.left;
-//         var left=l-this.rect.article.l;//相对于article定位计算的left，滚动在body上，所以页面left=0
-//
-//             left-=this.tooltip.rect.width/2;//减去弹框宽度一半，弹框居中
-//
-//         var diff=0;
-//         if(left<-60){
-//             diff=left-(-60);
-//             left=-60;
-//         }
-//         var scrollTop=$("body").scrollTop();
-// =======
+    Editor.prototype.updatePositionTooltip=function(l,t,fn){
+
         var  offsetLeft=this.rect.offset.left;
         var left=l-this.rect.article.left;//相对于article定位计算的left，滚动在body上，所以页面left=0
-        left-=this.tooltip.rect.width/2+20;//减去弹框宽度一半，弹框居中
+        left-=this.tooltip.rect.width/2;//减去弹框宽度一半，弹框居中
         var diff=-20;
         if(left<-offsetLeft){
             diff=left-(-offsetLeft);
             left=-offsetLeft;
         }
         var scrollTop=$("body").scrollTop();
-//>>>>>>> 5d8109780826e4b82e54c78a3bc709d3724195f8
         var top=t;
-        top-=this.rect.article.t-scrollTop;
+        top-=this.rect.article.t-scrollTop-26;
         top-=this.tooltip.rect.height+20;
          console.log("11111",left,top);
         this.tooltip.wrap.find(".downTriangle").css("margin-left",diff+"px");
@@ -395,44 +375,99 @@
     Editor.prototype.hideTooltip=function(){
         this.tooltip.hide();
     };
-    Editor.prototype.stdin=function(editor){
-        $.prompt("输入批注", true, function(value) {
-            var range = editor.range.getRange();
+    Editor.prototype.addPostil=function(value){
+        var ths=this,content="";
 
-            var selected = range.extractContents().textContent;
-            var text = "[ins id='" + (new Date().getTime()) + "' comment='" + value + "']" + selected + "[/ins]";
-            var textNode = document.createTextNode(text);
-            range.insertNode(textNode);
-            var content = editor.wrapArticle.html();
-            var reg = /\[ins id='(\d*)' comment='([\w\W]*)'\]([\w\W]*)\[\/ins\]/gi;
-            reg.exec(content);
-            var id = RegExp.$1,
-                comment = RegExp.$2,
-                c = RegExp.$3;
-            var reHtml = "<ins id='" + id + "' comment='" + comment + "' class='postil' >" + c + "<svg class='icons minipostil icon-bubble2'><use xlink:href='#icon-bubble2'></use></svg></ins>";
-            content = content.replace(reg, reHtml);
-            editor.wrapArticle.html(content);
-            editor.wrap.find(".minipostil").each(function() {
-                $(this).click(function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    var ths=this;
-                    $.dialog({
-                        text: $(this.parentNode).attr("comment"),
-                        ok: "删除",
-                        cancel: "返回",
-                        style:"min-height:70px;text-indent:2em;padding:10px;"
-                    }, function() {
-                        $("ins#" + ths.parentNode.id).replaceWith(selected);
+        var range = this.range.getRange();
+        var page=function(n){
+            function findParent(node,cls){
+                if(node&&(node.tagName.toUpperCase=="body"||$(node).hasClass(cls))){
+                    return node;
+                }else{
+                    return arguments.callee(node.parentNode);
+                }
+            }
+            return $(findParent(n,"page")).attr("data-page");
+        }(range.startContainer);
+        var selected = range.extractContents().textContent;
+        var text = "[ins id='" + (new Date().getTime()) + "' comment='" + value + "']" + selected + "[/ins]";
+        var textNode = document.createTextNode(text);
+        range.insertNode(textNode);
+        var content = this.wrapArticle.html();
+        var reg = /\[ins id='(\d*)' comment='([\w\W]*)'\]([\w\W]*)\[\/ins\]/gi;
+        reg.exec(content);
+        var id = RegExp.$1,
+            comment = RegExp.$2,
+            c = RegExp.$3;
+        var reHtml = "<ins id='" + id + "' comment='" + comment + "' class='postil' >" + c + "<svg class='icons minipostil icon-bubble2'><use xlink:href='#icon-bubble2'></use></svg></ins>";
+        content = content.replace(reg, reHtml);//更换选中的部分
+        this.wrapArticle.html(content);
+        this.wrap.find(".minipostil").each(function() {
+            $(this).click(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var that=this;
+                $.dialog({
+                    text: $(this.parentNode).attr("comment"),
+                    ok: "删除",
+                    cancel: "返回",
+                    style:"min-height:70px;text-indent:2em;padding:10px;"
+                }, function() {
+                    var load=$.load("删除批注中...");
+                    $.ajax({
+                        url:"/data/dataok.json",
+                        type:"POST",
+                        dataType:"json",
+                        data:{postil_id:that.parentNode.id},
+                        success:function(data){
+                            load.remove();
+                            if(!data.code){
+                                $("ins#" + that.parentNode.id).replaceWith(selected);
+                                alert("删除成功");
+                            }else{
+                                ths.log(data.code,data.errormsg);
+                            }
+                        },
+                        error:function(e){
+                            load.remove();
+                            alert("错误代码",e)
+                        }
                     });
+
                 });
             });
         });
+        ths.wrapPostil.find(".page").each(function(){
+            content+=$(this).html().trim();
+        });
+        var load=$.load("保存批注中...");
+        $.ajax({
+            url:"/data/dataok.json",
+            type:"POST",
+            dataType:"json",
+            data:{postil_id:+new Date,postil_content:value,article:content},
+            success:function(data){
+                load.remove();
+                if(!data.code){
+                    var length=ths.wrapPostil.find(".page-"+page+"postil").get(0).childern.length;
+                    var postil='<div class="postil page-'+page+'-postil-'+length+'" id="postil'+id+'" '+
+                            'postil_id="'+id+'" postil_createtime="">'+
+                            '<i class="rs rs-flag2" style="color:green;position: absolute;"></i>'+
+                            '<div class="text">这是一段批注</div></div>';
+                    this.wrapPostil.find("")
+                    alert("保存成功");
+                }else{
+                    ths.log(data.code);
+                }
+            },
+            error:function(e){
+                load.remove();
+                alert("错误代码",e)
+            }
+        });
 
     };
-
 })(jQuery, window, document);
-
 
 ;
 (function ($, win, doc, noop) {
@@ -535,7 +570,9 @@
               ths.hide();
           }else {
               ths.hide();
-              ths.options.context.stdin(ths.options.context);
+              $.prompt("输入批注", true, function(value) {
+                 ths.options.context.addPostil(value);
+              });
           }
         });
     };
