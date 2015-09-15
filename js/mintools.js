@@ -37,8 +37,8 @@
 	};
 
 	$.prompt = function(msg, isArea, fn) {
-		var str = "<div class='mask-msg'><div class='message'><header>" + msg +
-			"</header><section><div class='inputarea'>";
+		var str = "<div class='mask-msg'><div class='message'><div class='header'>" + msg +
+			"</div><section><div class='inputarea'>";
 			if(isArea){
 				str+="<textarea style='width:100%;' class='val' placeholder='请输入...' rows='8' cols='40'></textarea>";
 			}else{
