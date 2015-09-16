@@ -39,6 +39,7 @@
             offsetTop:0,
             mousedown:false
         };
+        this.postilStore=[];
         this.range = new window.rs.Range();
 
         this.init(ops);
@@ -271,16 +272,19 @@
         });
 
         this.wrapArticle.on("mouseenter","ins",function(){
-            ths.wrapPostil.find("#postil"+this.id).addClass("hover");
-        }).on("mouseout","ins",function(){
-            ths.wrapPostil.find("#postil"+this.id).removeClass("hover");
+            ths.wrapPostil.find("#postil"+this.id).toggleClass("hover");
+            $(this).toggleClass("hover");
+        }).on("mouseleave","ins",function(){
+            ths.wrapPostil.find("#postil"+this.id).toggleClass("hover");
+            $(this).toggleClass("hover");
         });
-        this.wrapPostil.on("mouseenter",".postil",function(){
-            ths.wrapArticle.find("ins#"+this.id.replace("postil","")).addClass("hover");
-        }).on("mouseout",".postil",function(){
-            ths.wrapArticle.find("ins#"+this.id.replace("postil","")).removeClass("hover");
+        this.wrapPostil.find(".postil").hover(function(){
+            ths.wrapArticle.find("ins#"+this.id.replace("postil","")).toggleClass("hover");
+            $(this).toggleClass("hover");
+        },function(){
+            ths.wrapArticle.find("ins#"+this.id.replace("postil","")).toggleClass("hover");
+            $(this).toggleClass("hover");
         });
-
         $("body").mousewheel(function(e){
             ths.updateRect();
         });
@@ -377,16 +381,64 @@
     Editor.prototype.hideTooltip=function(){
         this.tooltip.hide();
     };
-    Editor.prototype.addPostil=function(value){
+
+    Editor.prototype.deletePostil=function(that,selected){
+        var load=$.load("删除批注中...");
+        $.ajax({
+            url:"/data/dataok.json",
+            type:"POST",
+            dataType:"json",
+            data:{postil_id:that.parentNode.id},
+            success:function(data){
+                load.remove();
+                if(!data.code){
+                    $("ins#" + that.parentNode.id).replaceWith(selected);
+                    alert("删除成功");
+                }else{
+                    ths.log(data.code,data.errormsg);
+                }
+            },
+            error:function(e){
+                load.remove();
+                alert("错误代码",e)
+            }
+        });
+    };
+    Editor.prototype.addPostil=function(){
+        this.wrapPostil.find(".page").each(function(){
+            content+=$(this).html().trim();
+        });
+        var load=$.load("保存批注中...");
+        $.ajax({
+            url:"/data/dataok.json",
+            type:"POST",
+            dataType:"json",
+            data:{postil_id:+new Date,postil_content:value,article:content},
+            success:function(data){
+                load.remove();
+                if(!data.code){
+
+                }else{
+                    ths.log(data.code);
+                }
+            },
+            error:function(e){
+                load.remove();
+                alert("错误代码",e)
+            }
+        });
+    };
+
+    Editor.prototype.writePostil=function(value){
         var ths=this,content="";
 
         var range = this.range.getRange();
         var page=function(n){
             function findParent(node,cls){
-                if(node&&(node.tagName.toUpperCase=="body"||$(node).hasClass(cls))){
+                if(node.tagName&&(node.tagName.toUpperCase=="BODY"||$(node).hasClass(cls))){
                     return node;
                 }else{
-                    return arguments.callee(node.parentNode);
+                    return arguments.callee(node.parentNode,cls);
                 }
             }
             return $(findParent(n,"page")).attr("data-page");
@@ -415,57 +467,23 @@
                     cancel: "返回",
                     style:"min-height:70px;text-indent:2em;padding:10px;"
                 }, function() {
-                    var load=$.load("删除批注中...");
-                    $.ajax({
-                        url:"/data/dataok.json",
-                        type:"POST",
-                        dataType:"json",
-                        data:{postil_id:that.parentNode.id},
-                        success:function(data){
-                            load.remove();
-                            if(!data.code){
-                                $("ins#" + that.parentNode.id).replaceWith(selected);
-                                alert("删除成功");
-                            }else{
-                                ths.log(data.code,data.errormsg);
-                            }
-                        },
-                        error:function(e){
-                            load.remove();
-                            alert("错误代码",e)
-                        }
-                    });
-
+                    ths.deletePostil(that,selected);
                 });
             });
         });
-        ths.wrapPostil.find(".page").each(function(){
-            content+=$(this).html().trim();
-        });
-        var load=$.load("保存批注中...");
-        $.ajax({
-            url:"/data/dataok.json",
-            type:"POST",
-            dataType:"json",
-            data:{postil_id:+new Date,postil_content:value,article:content},
-            success:function(data){
-                load.remove();
-                if(!data.code){
-                    var length=ths.wrapPostil.find(".page-"+page+"postil").get(0).childern.length;
-                    var postil='<div class="postil page-'+page+'-postil-'+length+'" id="postil'+id+'" '+
-                            'postil_id="'+id+'" postil_createtime="">'+
-                            '<i class="rs rs-flag2" style="color:green;position: absolute;"></i>'+
-                            '<div class="text">这是一段批注</div></div>';
-                    this.wrapPostil.find("")
-                    alert("保存成功");
-                }else{
-                    ths.log(data.code);
-                }
-            },
-            error:function(e){
-                load.remove();
-                alert("错误代码",e)
-            }
+        var curpage=ths.wrapPostil.find(".page-"+page+"-postil");
+        var length=curpage.get(0).children.length;
+        var postil='<div class="postil page-'+page+'-postil-'+length+'" id="postil'+id+'" '+
+                'postil_id="'+id+'" postil_createtime="">'+
+                '<i class="rs rs-flag2" style="color:green;position: absolute;"></i>'+
+                '<div class="text">'+comment+'</div></div>';
+        var $postil=$(postil).appendTo(curpage);
+        $postil.hover(function(){
+            ths.wrapArticle.find("ins#"+this.id.replace("postil","")).toggleClass("hover");
+            $(this).toggleClass("hover");
+        },function(){
+            ths.wrapArticle.find("ins#"+this.id.replace("postil","")).toggleClass("hover");
+            $(this).toggleClass("hover");
         });
 
     };
@@ -573,7 +591,7 @@
           }else {
               ths.hide();
               $.prompt("输入批注", true, function(value) {
-                 ths.options.context.addPostil(value);
+                 ths.options.context.writePostil(value);
               });
           }
         });

@@ -259,6 +259,10 @@ nav.extra-main-left.show  .nav-triangle{
 .nav-boot:hover{
   opacity: 1;
 }
+.hover{
+    background: #48964F;
+    color: #FFF;
+}
 .showlist .nav-boot i{
     transform: rotateZ(135deg);
 }
@@ -281,7 +285,11 @@ nav.extra-main-left.show  .nav-triangle{
 }
 .wrap-postil .text{
   display: inline-block;
+word-break: break-word;
   text-indent: 2em;
+}
+.wrap-postil{
+outline: 0;
 }
 .page-1-postil >div{
   padding: 5px 0;
