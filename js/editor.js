@@ -285,6 +285,9 @@
             ths.wrapArticle.find("ins#"+this.id.replace("postil","")).toggleClass("hover");
             $(this).toggleClass("hover");
         });
+        this.wrapPostil.on("change",".postil .text",function(e){
+            var text=$(this).get(0).innerText
+        });
         $("body").mousewheel(function(e){
             ths.updateRect();
         });
