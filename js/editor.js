@@ -243,8 +243,13 @@
     Editor.prototype.updateRect=function(){
         var article=this.wrapArticle.get(0).getBoundingClientRect();
         var postil=this.wrapPostil.get(0).getBoundingClientRect();
+<<<<<<< HEAD
         var wrap=this.wrap.find(".main-scroll");
         this.rect={
+=======
+        var wrap=this.wrap.find(".main-body")
+        this.Rect={
+>>>>>>> rushui
             article:{
                 left:article.left,
                 top:article.top,
@@ -253,7 +258,9 @@
                 right:article.right,
                 bottom:article.bottom,
                 height:article.height,
-                width:article.width
+                width:article.width,
+                offsetLeft:wrap.offset().left,
+                offsetTop:wrap.offset().top
             },
             postil:{
                 left:postil.left,
