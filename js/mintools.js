@@ -131,12 +131,16 @@
 		});
 	};
 
-	$.load=function(){
+	$.load=function(msg){
+		if(!msg){
+			msg="加载中...";
+		}
 		var str='<div class="mask-msg">' +
 			'<div class="loader">' +
 			'<div class="bar"></div>' +
 			'<div class="bar"></div>' +
 			'<div class="bar"></div>' +
+			'<div class="loading-text">'+msg+'</div>'+
 			'</div>' +
 			'</div>';
 		var $elm = $(str).appendTo($("body"));

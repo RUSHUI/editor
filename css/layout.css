@@ -149,7 +149,7 @@ position: relative;/*批注需要绝对定位*/
     font: 16px/2 "微软雅黑";
     line-height: 30px;
     text-indent: 2em;
-    margin: 3em 20px 1em 0;
+    margin: 56px 20px 18px 0;
     text-align: justify;
 }
 .main-bottom .wrap-article.write{
@@ -158,9 +158,9 @@ position: relative;/*批注需要绝对定位*/
 .main-bottom .wrap-postil {
     font-size: 12px;
     display: inline-block;
-    font: 16px/2 "微软雅黑";
+    font: 12px/1 "微软雅黑";
     line-height: 16px;
-    margin: 3em 0px 1em 0px;
+    margin:56px 0px 18px 0px;
     text-align: justify;
     min-width: 240px;
     width: calc(100% - 880px);
